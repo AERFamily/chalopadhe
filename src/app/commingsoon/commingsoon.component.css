@@ -1,0 +1,110 @@
+.divider {
+  display : block;
+  text-align : center;
+  overflow : hidden;
+  white-space : nowrap;
+  margin : 1rem 0;
+}
+.divider .divider-text {
+  position : relative;
+  display : inline-block;
+  font-size : 0.9375rem;
+  padding : 0 1rem;
+  background-color : #FFFFFF;
+}
+.divider .divider-text i {
+  font-size : 1rem;
+}
+.divider .divider-text:before, .divider .divider-text:after {
+  content : '';
+  position : absolute;
+  top : 50%;
+  width : 9999px;
+  border-top : 1px solid rgba(0, 0, 0, 0.1);
+}
+.divider .divider-text:before {
+  right : 100%;
+}
+.divider .divider-text:after {
+  left : 100%;
+}
+.divider.divider-left .divider-text {
+  float : left;
+  padding-left : 0;
+}
+.divider.divider-left .divider-text:before {
+  display : none;
+}
+.divider.divider-left-center .divider-text {
+  left : -25%;
+}
+.divider.divider-right .divider-text {
+  float : right;
+  padding-right : 0;
+}
+.divider.divider-right .divider-text:after {
+  display : none;
+}
+.divider.divider-right-center .divider-text {
+  right : -25%;
+}
+.divider.divider-dotted .divider-text:before, .divider.divider-dotted .divider-text:after {
+  border-style : dotted;
+  border-width : 1px;
+  border-top-width : 0;
+  border-color : black;
+}
+.divider.divider-dashed .divider-text:before, .divider.divider-dashed .divider-text:after {
+  border-style : dashed;
+  border-width : 1px;
+  border-top-width : 0;
+  border-color : black;
+}
+ .card {
+     /* border: 1px solid black; */
+     padding: 3%;
+ }
+.card .card-title {
+  font-weight : 500;
+  letter-spacing : 0.05rem;
+  font-size : 1.32rem;
+  margin-bottom : 0.5rem;
+}
+.card .card-header .card-title {
+  margin-bottom : 0;
+}
+.card .card-header .heading-elements, .card .card-header .heading-elements-toggle {
+  background-color : inherit;
+  position : absolute;
+  top : 17px;
+  right : 21px;
+  cursor : pointer;
+}
+.card .card-header .heading-elements.heading-top-elements .page-item, .card .card-header .heading-elements-toggle.heading-top-elements .page-item {
+  display : inline-block;
+}
+.card .card-header .heading-elements a, .card .card-header .heading-elements-toggle a {
+  padding : 0;
+  padding-left : 8px;
+}
+.card .card-header .heading-elements a.btn, .card .card-header .heading-elements-toggle a.btn {
+  padding-top : 6px;
+  padding-bottom : 6px;
+}
+.card .card-header .heading-elements a[data-action='collapse'] i, .card .card-header .heading-elements-toggle a[data-action='collapse'] i {
+  -webkit-transition : all 0.25s ease-out;
+          transition : all 0.25s ease-out;
+  display : inline-block;
+}
+.card .card-header .heading-elements a[data-action='collapse'].rotate i, .card .card-header .heading-elements-toggle a[data-action='collapse'].rotate i {
+  -webkit-transform : rotate(-180deg);
+      -ms-transform : rotate(-180deg);
+          transform : rotate(-180deg);
+}
+
+#content-section
+{
+background-image:url('src/assets/images/page-bg.jpg');
+background-repeat: no-repeat;
+background-size: cover;
+}
