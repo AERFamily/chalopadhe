@@ -1,4 +1,4 @@
-<section>
+<section *ngIf="false">
 <div class="container-fluid" style="background-color: #343a40;">
   <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#" *ngIf="userInformation">
@@ -10,64 +10,73 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item active" *ngIf="userInformation">
+        <li class="nav-item active">
           <a class="nav-link" routerLink="/home">Home <span class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item" *ngIf="userInformation">
+        <li class="nav-item">
           <a class="nav-link" routerLink="/classroom">Classroom <span class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item" *ngIf="!userInformation">
+        <li class="nav-item">
           <button type="button" class="btn-1 btn-1-primary" (click)="openloginmodel()">Admin login</button>
         </li>
-        <!-- <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown link
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
-        </li> -->
         <li class="nav-item" *ngIf="userInformation">
           <a class="item-horizontal">
             <span style="color: white; padding-right:10px;">John Doe</span><span><img class="round" [src]="userInformation.picture" alt="avatar" height="40" width="40"></span>
         </a>
         </li>
-        <!-- <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown link
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
-        </li> -->
       </ul>
     </div>
   </nav>
   </div>
 </section>
-<section>
 <router-outlet></router-outlet>
-</section>
 <div class="modal" [class.modal-open]="isLoginModalOpen">
   <div class="modal-content">
-    <div class="row">
-      <div class="col-8">
-        <p class="modal-Heading verticalCenter"><b>Log in to Disha kiran</b></p>
+    <div class="row flexbox-container center-div">
+      <div class="col-xl-12 col-12 d-flex justify-content-center">
+        <div class="card bg-authentication rounded-0 mb-0 w-100">
+          <div class="row m-0">
+            <div class="col-lg-6 d-lg-block d-none text-center align-self-center px-1 py-0">
+              <img src=".\assets\images\lock-screen.png" alt="branding logo">
+            </div>
+            <div class="col-lg-6 col-12 p-0">
+              <div class="card rounded-0 mb-0 px-2 pb-2">
+                <div class="card-header pb-1">
+                  <div class="row card-title">
+                    <h4 class="col-8 mb-0">Admin Login</h4>
+                    <div class="col-4"><span class="close" (click)="closeLoginModal()">&times;</span></div>
+                  </div>
+                </div>
+                <div class="card-content">
+                  <div class="card-body pt-1">
+                    <form action="index.html">
+                      <fieldset class="form-label-group position-relative has-icon-left">
+                        <input type="text" class="form-control" #username placeholder="Username" required>
+                        <div class="form-control-position">
+                          <i class="feather icon-user"></i>
+                        </div>
+                        <label for="user-name"></label>
+                      </fieldset>
+    
+                      <fieldset class="form-label-group position-relative has-icon-left">
+                        <input type="password" class="form-control" #pwd placeholder="Password" required>
+                        <div class="form-control-position">
+                          <i class="feather icon-lock"></i>
+                        </div>
+                        <label for="user-password"></label>
+                      </fieldset>
+                      <!-- <a href="auth-login.html">Are you not John Doe ?</a> -->
+                      <button (click)="login(username.value,pwd.value)" class="btn btn-primary float-right">Login</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="col-4"><span class="close" (click)="closeLoginModal()">&times;</span></div>
     </div>
-    <hr>
-    <div class="div-row">
+    <!-- <div class="div-row">
       <a class="fb login-btn" (click)="signInWithFB()">
         <i class="fab fa-facebook-square"></i> Continue with Facebook
       </a>
@@ -83,7 +92,7 @@
       <input type="password" #password class="login-input" name="password" placeholder="Password" required>
       <input class="login-btn text-center" value="Login" (click)="login(userid.value,password.value)"
         style="background-color: #4CAF50;" readonly>
-    </div>
+    </div> -->
     <!-- <p class="center-para link-Para">Forgot Password?</p>
     <hr style="margin-bottom:20px">
     <p class="center-para">Dot have account? <span class="signup-span link-Para" (click)="signup()">Sign up</span></p> -->

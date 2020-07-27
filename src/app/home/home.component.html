@@ -1,27 +1,52 @@
 <form>
     <div class="form-group">
         <label for="exampleFormControlSelect1">Country</label>
-        <select class="form-control" id="exampleFormControlSelect1" (change)="onCountryChange($event.target.value)">
+        <select class="form-control" (change)="onCountryChange($event.target.value)">
             <option [value]="-1">select Country</option>
+            <option [value]="0">+Add Country</option>
             <option *ngFor="let country of countryData" [value]="country">{{country}}</option>
         </select>
     </div>
     <div class="form-group">
         <label for="exampleFormControlSelect1">language</label>
-        <select class="form-control" id="exampleFormControlSelect1">
-            <option>select Language</option>
-            <option *ngFor="let country of countryData" [value]="country">{{country}}</option>
+        <select class="form-control" (change)="onLanguageChange($event.target.value)">
+            <option [value]="-1">select Language</option>
+            <option *ngFor="let language of languageData" [value]="language">{{language}}</option>
         </select>
     </div>
     <div class="form-group">
         <label for="exampleFormControlSelect1">Board</label>
-        <select class="form-control" id="exampleFormControlSelect1">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+        <select class="form-control" (change)="onboardChange($event.target.value)">
+        <option [value]="-1">select Board</option>
+        <option *ngFor="let board of boardData" [value]="board">{{board}}</option>
         </select>
     </div>
-    <button class="btn btn-primary" (click)="gotoDashboard()">Submit</button>
+    <div class="form-group">
+        <label for="exampleFormControlSelect1">Class</label>
+        <select class="form-control" (change)="onstandardChange($event.target.value)">
+            <option [value]="-1">select Class</option>
+            <option *ngFor="let standard of classData" [value]="standard">{{standard}}</option>
+        </select>
+    </div>
+    <button class="btn btn-primary" [disabled]="!enableSubmitButton" (click)="gotoDashboard()">Submit</button>
 </form>
+
+
+<div id="content" class="modal" [class.modal-open]="openModal">
+    <div class="modal-content" [ngStyle]="{'width': modalWidth+'px'}">
+        <div class="Modal-header">
+            <h3 style="position:relative;float:left;">{{modelTitle}}</h3>
+            <span class="close" (click)="closeDetails()">X</span>
+        </div>
+        <hr>
+        <div>
+            <form>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">County Name</label>
+                    <input type="text" class="form-control" #name id="exampleFormControlInput1" placeholder="Name">
+                </div>
+                <button (click)="AddValue(name.value)" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>

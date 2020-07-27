@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
 import { SocialAuthService, GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
 import { UserDataClass } from './Classes/model';
-
+import { HttpServiceService } from './data-services/http-services';
+import { Router } from '@angular/router';
+  export class loginStatus {
+  status:string;
+}
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -11,33 +15,31 @@ export class AppComponent {
   title = 'chalopadhe';
   isLoginModalOpen: boolean = false;
   userInformation: UserDataClass;
-  constructor(private authService: SocialAuthService) {}
+  loginStatus:loginStatus=null;
+  constructor(private authService: SocialAuthService, private _httpservice: HttpServiceService, private router: Router) {}
   openloginmodel() {
+   // window.location.href ="https://admin.chalopadhe.com/admin/";
     this.isLoginModalOpen = true;
   }
   login(userid: string, pwd: string) {
-    if (userid === '') {
-      alert('Please enter user id');
-    } else if (pwd === '') {
-      alert('Please enter password');
-    } else {
-      // var userLoginData = new HttpParams();
-      // userLoginData = userLoginData.append("user_id", userid);
-      // userLoginData = userLoginData.append("password", pwd);
-      // this.httpservice.loginUser(userLoginData).subscribe(data => {
-      //   if (Object.keys(data).length > 1) {
-      //     this.userInformation = data;
-      //     this.userInformation.picture = "https://api.dishakiran.com/" + this.userInformation.picture;
-      //     this.localStor.storeInformation(this.userInformation);
-      //     // this.userImage = "https://api.dishakiran.com/"+this.userInformation.picture;
-      //     this.isLoginModalOpen = false;
-      //     this.navigateToTest();
-      //   }
-      //   else {
-      //     alert("invalid username or password");
-      //   }
-      // });
-    }
+    this.isLoginModalOpen = false;
+    this.router.navigate(['./home']);
+    // if (userid === '') {
+    //   alert('Please enter user id');
+    // } else if (pwd === '') {
+    //   alert('Please enter password');
+    // } else {
+    //   this._httpservice.login(userid,pwd).subscribe(data => {
+    //     this.loginStatus = data as loginStatus;
+
+    //     if (this.loginStatus.status ==="true") {
+
+    //     }
+    //     else {
+    //       alert("invalid username or password");
+    //     }
+    //   });
+    // }
   }
   signInWithGoogle(): void {
     this.authService

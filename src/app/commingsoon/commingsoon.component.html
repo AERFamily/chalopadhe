@@ -1,7 +1,8 @@
 
             <section id="content-section">
-                <div class="row d-flex vh-100 align-items-center justify-content-center">
-                    <div class="col-xl-5 col-md-8 col-sm-10 col-12 px-md-0 px-2">
+                <button type="button" class="btn-1 btn-1-primary" (click)="openloginmodel()">Admin login</button>
+                <div class="row d-flex vh-100 align-items-center justify-content-center" >
+                    <div class="col-xl-5 col-md-8 col-sm-10 col-11 px-md-0 px-2">
                         <div class="card text-center">
                             <div>
                                     <h2>We are launching soon</h2>
@@ -21,11 +22,11 @@
                                     </p>
                                     <form class="form-horizontal">
                                         <fieldset class="form-label-group">
-                                            <input type="text" class="form-control" id="user-email" placeholder="Email">
+                                            <input type="text" class="form-control" #emailId placeholder="Email">
                                             <label for="user-email"></label>
                                         </fieldset>
                                     </form>
-                                    <button class="btn btn-primary w-100">Subscribe</button>
+                                    <button class="btn btn-primary w-100" (click)="suscribeEmail(emailId.value)">Subscribe</button>
                                 </div>
                             </div>
                         </div>

@@ -9,13 +9,13 @@ import { CommingsoonComponent } from './commingsoon/commingsoon.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/commningsoon', pathMatch: 'full' },
-  { path: 'commningsoon', component: CommingsoonComponent },
+  { path: '', redirectTo: '/comingsoon', pathMatch: 'full' },
+  { path: 'comingsoon', component: CommingsoonComponent },
+  { path: 'home', component: HomeComponent },
   {
     path: 'classroom',
     component: ClassroomComponent,
     children: [
-      { path: '', component: SubjectpageComponent },
       { path: 'subject', component: SubjectpageComponent },
       { path: 'chapter', component: ChapterpageComponent },
       { path: 'content', component: ContentPageComponent }
