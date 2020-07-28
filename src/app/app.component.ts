@@ -4,7 +4,7 @@ import { UserDataClass } from './Classes/model';
 import { HttpServiceService } from './data-services/http-services';
 import { Router } from '@angular/router';
   export class loginStatus {
-  status:string;
+  status:boolean;
 }
 @Component({
   selector: 'app-root',
@@ -22,24 +22,25 @@ export class AppComponent {
     this.isLoginModalOpen = true;
   }
   login(userid: string, pwd: string) {
-    this.isLoginModalOpen = false;
-    this.router.navigate(['./home']);
-    // if (userid === '') {
-    //   alert('Please enter user id');
-    // } else if (pwd === '') {
-    //   alert('Please enter password');
-    // } else {
-    //   this._httpservice.login(userid,pwd).subscribe(data => {
-    //     this.loginStatus = data as loginStatus;
-
-    //     if (this.loginStatus.status ==="true") {
-
-    //     }
-    //     else {
-    //       alert("invalid username or password");
-    //     }
-    //   });
-    // }
+    // this.isLoginModalOpen = false;
+    // this.router.navigate(['./home']);
+    if (userid === '') {
+      alert('Please enter user id');
+    } else if (pwd === '') {
+      alert('Please enter password');
+    } else {
+      this._httpservice.login(userid,pwd).subscribe(data => {
+        this.loginStatus = data as loginStatus;
+        // alert(this.loginStatus.status);
+        if (this.loginStatus.status == true) {
+          this.isLoginModalOpen = false;
+          this.router.navigate(['./home']);
+        }
+        else {
+          alert("invalid username or password");
+        }
+      });
+    }
   }
   signInWithGoogle(): void {
     this.authService

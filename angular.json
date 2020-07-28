@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "chalopadhe"
+    }
+  },
+  "defaultProject": "chalopadhe",
+  "cli": {
+    "analytics": false
+  }
 }

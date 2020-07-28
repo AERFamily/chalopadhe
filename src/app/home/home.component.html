@@ -11,6 +11,7 @@
         <label for="exampleFormControlSelect1">language</label>
         <select class="form-control" (change)="onLanguageChange($event.target.value)">
             <option [value]="-1">select Language</option>
+            <option [value]="0">+Add Language</option>
             <option *ngFor="let language of languageData" [value]="language">{{language}}</option>
         </select>
     </div>
@@ -18,6 +19,7 @@
         <label for="exampleFormControlSelect1">Board</label>
         <select class="form-control" (change)="onboardChange($event.target.value)">
         <option [value]="-1">select Board</option>
+        <option [value]="0">+Add Board</option>
         <option *ngFor="let board of boardData" [value]="board">{{board}}</option>
         </select>
     </div>
@@ -25,6 +27,7 @@
         <label for="exampleFormControlSelect1">Class</label>
         <select class="form-control" (change)="onstandardChange($event.target.value)">
             <option [value]="-1">select Class</option>
+            <option [value]="0">+Add Class</option>
             <option *ngFor="let standard of classData" [value]="standard">{{standard}}</option>
         </select>
     </div>
@@ -42,11 +45,12 @@
         <div>
             <form>
                 <div class="form-group">
-                    <label for="exampleFormControlInput1">County Name</label>
+                    <label for="exampleFormControlInput1">Name</label>
                     <input type="text" class="form-control" #name id="exampleFormControlInput1" placeholder="Name">
                 </div>
-                <button (click)="AddValue(name.value)" class="btn btn-primary">Submit</button>
+                
             </form>
+            <button (click)="AddValue(name.value)" class="btn btn-primary">Submit</button>
         </div>
     </div>
 </div>

@@ -135,6 +135,7 @@ selectedClass:string
     this.openModal = false;
     if (pattern.test(val))
     {
+      console.log(this.selectedCatogory);
       switch (this.selectedCatogory) {
         case 1:
           {
@@ -170,6 +171,13 @@ selectedClass:string
           }
         case 4:
           {
+            this._httpservice.Addstandard(val).subscribe((data: any) => {
+
+              alert((data as status).message);
+            },
+              error => {
+                console.log("Error in recieving data");
+              });
             break;
           }
       }
