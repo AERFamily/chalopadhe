@@ -1,6 +1,9 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpServiceService } from '../data-services/http-services';
+import { status } from '../home/home.component';
+import { SessionClass } from '../Classes/model';
+import { localSessionStorage } from '../data-services/localSession';
 
 @Component({
   selector: 'app-subjectpage',
@@ -9,14 +12,15 @@ import { HttpServiceService } from '../data-services/http-services';
 })
 export class SubjectpageComponent implements OnInit {
   parameter:any;
-  constructor(private router: Router, private _httpservice: HttpServiceService) {
-    const navigation = this.router.getCurrentNavigation();
-    this.parameter = navigation.extras.state as {
-      country: string,
-      language: string,
-      board: string,
-      standard: string
-    };
+  sessionVal:SessionClass;
+  constructor(private router: Router, private _httpservice: HttpServiceService,private localSession:localSessionStorage) {
+    // const navigation = this.router.getCurrentNavigation();
+    // this.parameter = navigation.extras.state as {
+    //   country: string,
+    //   language: string,
+    //   board: string,
+    //   standard: string
+    // };
   }
   public openModal: boolean = false;
   modelTitle: string = '';
@@ -30,31 +34,45 @@ export class SubjectpageComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-      if(this.parameter != null)
-      {
-      this._httpservice.GetSubjects(this.parameter.country, this.parameter.language, this.parameter.board, this.parameter.standard).subscribe((data: any) => {
+    this.sessionVal = this.localSession.retrieveSession();
+    if(this.sessionVal == null)
+    {
+    console.log(this.sessionVal);
+      this.router.navigate(['./home']);
+    }
+    else
+    {
+      console.log(this.sessionVal);
+      this._httpservice.GetSubjects(this.sessionVal.country, this.sessionVal.language, this.sessionVal.board, this.sessionVal.standard).subscribe((data: any) => {
        this.subjectData = data;
       },
         error => {
           console.log("Error in recieving data");
         });
       }
+      
   }
   openSubject(subject:string) {
-    this.router.navigate(['./classroom/chapter'], {
-      state: {
-        country: this.parameter.country,
-        language: this.parameter.language,
-        board: this.parameter.board,
-        standard: this.parameter.standard,
-        subject:subject
-      }
-    });
+    this.sessionVal.subject = subject;
+    this.localSession.storeSession(this.sessionVal);
+    this.router.navigate(['./classroom/chapter']);
   }
-  addSubject()
+  openAddModal()
   {
     this.openModal = true;
     this.modelTitle = "Add Subject";
+  }
+  addSubject(val:string)
+  {
+    this.closeDetails()
+    this._httpservice.AddSubjects(val).subscribe((data: any) => {
+
+      alert((data as status).message);
+      this.subjectData.push(val);
+    },
+      error => {
+        console.log("Error in recieving data");
+      });
   }
   closeDetails() {
     this.openModal = false;

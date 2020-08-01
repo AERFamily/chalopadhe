@@ -15,3 +15,12 @@ export class UserDataClass {
   guest: boolean;
   timestamp: string;
 }
+export class SessionClass
+{
+  country:string;
+  language:string;
+  board:string;
+  standard:string;
+  subject:string;
+  chapter:string;
+}

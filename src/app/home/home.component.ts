@@ -1,6 +1,8 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpServiceService } from '../data-services/http-services';
+import { localSessionStorage } from '../data-services/localSession';
+import { SessionClass } from '../Classes/model';
 const pattern = /^[A-Za-z0-9 ]+$/;
 export class status {
   message: string;
@@ -18,11 +20,12 @@ classData:any;
 selectedCountry:string;
 selectedLanguage:string;
 selectedBoard:string;
-selectedClass:string
+selectedClass:string;
+SessionContent:SessionClass;
   public openModal: boolean = false;
   modelTitle: string = '';
   enableSubmitButton:boolean=false;
-  constructor(private router: Router,private _httpservice:HttpServiceService) { }
+  constructor(private router: Router,private _httpservice:HttpServiceService,private localSession:localSessionStorage) { }
   public modalWidth: number = window.innerWidth / 2;
   selectedCatogory:Number = -1;
   @HostListener('window:resize', ['$event'])
@@ -53,6 +56,7 @@ selectedClass:string
   }
   onCountryChange(val:string)
   {
+    this.enableSubmitButton = false;
     switch(val)
     {
       case "0":
@@ -69,18 +73,29 @@ selectedClass:string
       default:
         {
           this.selectedCountry = val;
-          this._httpservice.GetLanguage(val).subscribe((data: any) => {
-            this.languageData = data;
-          },
-            error => {
-              console.log("Error in recieving data");
-            });
+          this.SessionContent = new SessionClass();
+          this.SessionContent.country = val;
+          this.localSession.storeSession(this.SessionContent);
+          this.selectedLanguage = "-1";
+          this.selectedBoard = "-1";
+          this.selectedClass = "-1";
+          this.getLanguageData(val);
           break;
         }
     }
   }
+  getLanguageData(country:string)
+  {
+    this._httpservice.GetLanguage(country).subscribe((data: any) => {
+      this.languageData = data;
+    },
+      error => {
+        console.log("Error in recieving data");
+      });
+  }
   onLanguageChange(val: string) {
     this.selectedLanguage = val;
+    this.enableSubmitButton = false;
     if(val=="0")
     {
       this.selectedCatogory = 2;
@@ -89,15 +104,24 @@ selectedClass:string
 
     }
     else if (val !== "-1" && this.selectedCountry != "-1") {
-      this._httpservice.GetBoard(this.selectedCountry,this.selectedLanguage).subscribe((data: any) => {
-        this.boardData = data;
-      },
-        error => {
-          console.log("Error in recieving data");
-        });
+          this.SessionContent.language = val;
+          this.localSession.storeSession(this.SessionContent);
+          this.selectedBoard = "-1";
+          this.selectedClass = "-1";
+      this.getBoardData();
     }
   }
+  getBoardData()
+  {
+    this._httpservice.GetBoard(this.selectedCountry,this.selectedLanguage).subscribe((data: any) => {
+      this.boardData = data;
+    },
+      error => {
+        console.log("Error in recieving data");
+      });
+  }
   onboardChange(val: string) {
+    this.enableSubmitButton = false;
     this.selectedBoard = val;
     if(val=="0")
     {
@@ -106,17 +130,25 @@ selectedClass:string
       this.openModal = true;
     }
     else if (val !== "-1" && this.selectedCountry != "-1" && this.selectedLanguage !="-1") {
-      this._httpservice.Getstandard(this.selectedCountry, this.selectedLanguage,this.selectedBoard).subscribe((data: any) => {
-
-        this.classData = data;
-      },
-        error => {
-          console.log("Error in recieving data");
-        });
+      this.SessionContent.board = val;
+          this.localSession.storeSession(this.SessionContent);
+          this.selectedClass = "-1";
+      this.getStandardData();
     }
+  }
+  getStandardData()
+  {
+    this._httpservice.Getstandard(this.selectedCountry, this.selectedLanguage,this.selectedBoard).subscribe((data: any) => {
+
+      this.classData = data;
+    },
+      error => {
+        console.log("Error in recieving data");
+      });
   }
   onstandardChange(val: string) {
     this.selectedClass = val;
+    this.enableSubmitButton = false;
     if(val=="0")
     {
       this.selectedCatogory = 4;
@@ -124,6 +156,8 @@ selectedClass:string
       this.openModal = true;
     }
     else if (val !== "-1" && this.selectedCountry != "-1" && this.selectedLanguage != "-1" && this.selectedBoard != "-1") {
+      this.SessionContent.standard = val;
+      this.localSession.storeSession(this.SessionContent);
       this.enableSubmitButton = true;
     }
   }
@@ -141,6 +175,14 @@ selectedClass:string
           {
             this._httpservice.AddCountry(val).subscribe((data: any) => {
               alert((data as status).message);
+              this.countryData.push(val);
+              this.selectedCountry =val;
+              this.SessionContent = new SessionClass();
+              this.SessionContent.country = val;
+              this.localSession.storeSession(this.SessionContent);
+              this.selectedLanguage = "-1";
+              this.selectedBoard = "-1";
+              this.getLanguageData(val)
             },
               error => {
                 console.log("Error in recieving data");
@@ -152,6 +194,13 @@ selectedClass:string
             this._httpservice.AddLanguage(val).subscribe((data: any) => {
 
               alert((data as status).message);
+              this.languageData.push(val);
+              this.selectedLanguage = val;
+              this.SessionContent.language = val;
+          this.localSession.storeSession(this.SessionContent);
+          this.selectedBoard = "-1";
+          this.selectedClass = "-1";
+          this.getBoardData();
             },
               error => {
                 console.log("Error in recieving data");
@@ -163,6 +212,12 @@ selectedClass:string
             this._httpservice.AddBoard(val).subscribe((data: any) => {
 
               alert((data as status).message);
+              this.boardData.push(val);
+              this.selectedBoard = val;
+              this.SessionContent.board = val;
+          this.localSession.storeSession(this.SessionContent);
+          this.selectedClass = "-1";
+          this.getStandardData();
             },
               error => {
                 console.log("Error in recieving data");
@@ -174,6 +229,11 @@ selectedClass:string
             this._httpservice.Addstandard(val).subscribe((data: any) => {
 
               alert((data as status).message);
+              this.classData.push(val);
+              this.selectedClass = val;
+              this.SessionContent.standard = val;
+              this.localSession.storeSession(this.SessionContent);
+              this.enableSubmitButton = true;
             },
               error => {
                 console.log("Error in recieving data");

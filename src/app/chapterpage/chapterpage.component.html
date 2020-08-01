@@ -6,13 +6,13 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let chapter of chapterData" (click)="openChapter()">
+        <tr *ngFor="let chapter of chapterData" (click)="openChapter(chapter)">
             <td>#1</td>
             <td><i class="fa fa-circle font-small-3 text-success mr-50"></i>{{chapter}}</td>
         </tr>
     </tbody>
 </table>
-<div class="card-content text-center" style="background-color: white;" (click)="addChapter()">
+<div class="card-content text-center" style="background-color: white;" (click)="openAddModal()">
     <div class="card-body">
         <h2 class="text-bold-700">+</h2>
     </div>
@@ -29,13 +29,13 @@
         <form>
             <div class="form-group">
                 <label for="exampleFormControlInput1">Title</label>
-                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="title">
+                <input type="text" class="form-control" #name placeholder="title">
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="exampleFormControlTextarea1">Description</label>
                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            </div> -->
         </form>
+        <button (click)="addChapter(name.value)" class="btn btn-primary">Submit</button>
     </div>
 </div>

@@ -4,7 +4,7 @@
         <select class="form-control" (change)="onCountryChange($event.target.value)">
             <option [value]="-1">select Country</option>
             <option [value]="0">+Add Country</option>
-            <option *ngFor="let country of countryData" [value]="country">{{country}}</option>
+            <option *ngFor="let country of countryData" [value]="country" [selected]="country === selectedCountry">{{country}}</option>
         </select>
     </div>
     <div class="form-group">
@@ -12,7 +12,7 @@
         <select class="form-control" (change)="onLanguageChange($event.target.value)">
             <option [value]="-1">select Language</option>
             <option [value]="0">+Add Language</option>
-            <option *ngFor="let language of languageData" [value]="language">{{language}}</option>
+            <option *ngFor="let language of languageData" [value]="language" [selected]="language===selectedLanguage">{{language}}</option>
         </select>
     </div>
     <div class="form-group">
@@ -20,7 +20,7 @@
         <select class="form-control" (change)="onboardChange($event.target.value)">
         <option [value]="-1">select Board</option>
         <option [value]="0">+Add Board</option>
-        <option *ngFor="let board of boardData" [value]="board">{{board}}</option>
+        <option *ngFor="let board of boardData" [value]="board" [selected]="board===selectedBoard">{{board}}</option>
         </select>
     </div>
     <div class="form-group">
@@ -28,7 +28,7 @@
         <select class="form-control" (change)="onstandardChange($event.target.value)">
             <option [value]="-1">select Class</option>
             <option [value]="0">+Add Class</option>
-            <option *ngFor="let standard of classData" [value]="standard">{{standard}}</option>
+            <option *ngFor="let standard of classData" [value]="standard" [selected]="standard===selectedClass">{{standard}}</option>
         </select>
     </div>
     <button class="btn btn-primary" [disabled]="!enableSubmitButton" (click)="gotoDashboard()">Submit</button>

@@ -1,6 +1,9 @@
 import { Component, OnInit, ANALYZE_FOR_ENTRY_COMPONENTS, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpServiceService } from '../data-services/http-services';
+import { status } from '../home/home.component';
+import { SessionClass } from '../Classes/model';
+import { localSessionStorage } from '../data-services/localSession';
 
 @Component({
   selector: 'app-chapterpage',
@@ -9,17 +12,18 @@ import { HttpServiceService } from '../data-services/http-services';
 })
 export class ChapterpageComponent implements OnInit {
   parameter: any;
-  constructor(private router: Router, private _httpservice: HttpServiceService) {
-    const navigation = this.router.getCurrentNavigation();
-    this.parameter = navigation.extras.state as {
-      country: string,
-      language: string,
-      board: string,
-      standard: string,
-      subject:string
-    };
+  constructor(private router: Router, private _httpservice: HttpServiceService,private localSession:localSessionStorage) {
+    // const navigation = this.router.getCurrentNavigation();
+    // this.parameter = navigation.extras.state as {
+    //   country: string,
+    //   language: string,
+    //   board: string,
+    //   standard: string,
+    //   subject:string
+    // };
   }
   chapterData:any;
+  sessionVal:SessionClass;
   public openModal: boolean = false;
   modelTitle: string = '';
   public modalWidth: number = window.innerWidth / 2;
@@ -31,8 +35,15 @@ export class ChapterpageComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-    if (this.parameter != null) {
-      this._httpservice.GetChapter(this.parameter.country, this.parameter.language, this.parameter.board, this.parameter.standard,this.parameter.subject).subscribe((data: any) => {
+    this.sessionVal = this.localSession.retrieveSession();
+    if(this.sessionVal == null)
+    {
+    console.log(this.sessionVal);
+      this.router.navigate(['./home']);
+    }
+    else
+    {
+      this._httpservice.GetChapter(this.sessionVal.country, this.sessionVal.language, this.sessionVal.board, this.sessionVal.standard,this.sessionVal.subject).subscribe((data: any) => {
         this.chapterData = data;
       },
         error => {
@@ -40,10 +51,23 @@ export class ChapterpageComponent implements OnInit {
         });
     }
   }
-  openChapter() {
+  openChapter(chapter:string) {
+    this.sessionVal.chapter = chapter;
     this.router.navigate(['./classroom/content']);
   }
-  addChapter() {
+  addChapter(val:string) {
+    this.closeDetails();
+    this._httpservice.AddChapter(val).subscribe((data: any) => {
+
+      alert((data as status).message);
+      this.chapterData.push(val);
+    },
+      error => {
+        console.log("Error in recieving data");
+      });
+  }
+  openAddModal()
+  {
     this.openModal = true;
     this.modelTitle = 'Add Chapter';
   }
