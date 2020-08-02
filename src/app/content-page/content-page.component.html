@@ -1,6 +1,6 @@
 <div class="row" style="margin-bottom: 20px;">
 <div class="col-xl-6">
-    <iframe width="100%" height="400px" src="https://www.youtube.com/embed/AON2w7nq-7w" frameborder="0"
+    <iframe width="100%" height="400px"  frameborder="0"
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PLsyvDWwjkTqtOmqAiTzzfHspTAztB-udL"
         frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe> -->
@@ -11,26 +11,20 @@
 </div>
 <div class="col-xl-6">
 <div class="card">
-    <div class="card-content">
+    <div class="card-content" *ngIf="contentData">
         <div class="card-body">
-            <h4 class="card-title">Video Lectures</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                the card's content.</p>
+            <h4 class="card-title">{{contentData[0].title}}</h4>
+            <p class="card-text">{{contentData[0].description}}</p>
         </div>
-        <ul class="list-group list-group-flush">
+        <ul class="list-group list-group-flush" *ngFor="let content of contentData;let i = index">
             <li class="list-group-item">
-                <span class="badge badge-pill bg-primary float-right">4</span>
-               Video 1
+                <span class="badge badge-pill bg-primary float-right">{{i+1}}</span>
+               {{content.title}}
             </li>
-            <li class="list-group-item">
-                <span class="badge badge-pill bg-info float-right">2</span>
-                Video 2
-            </li>
-         
         </ul>
-        <div class="card-body">
-            <button type="button" class="btn btn-light" (click)="addVideo()">+ Add Video</button>
-        </div>
+    </div>
+    <div class="card-body">
+        <button type="button" class="btn btn-light" (click)="addVideo()">+ Add Video</button>
     </div>
 </div>
 </div>
@@ -73,22 +67,22 @@
             <form>
                 <div class="form-group">
                     <label for="exampleFormControlFile1">Choose file</label>
-                    <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                    <input type="file" class="form-control-file" #choosevalue>
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Paste Link</label>
-                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="title">
+                    <input type="text" class="form-control" #url placeholder="title">
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Title</label>
-                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="title">
+                    <input type="text" class="form-control" #title placeholder="title">
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlTextarea1">Description</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    <textarea class="form-control" #description rows="3"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
             </form>
+            <button type="submit" (click)="addContent(url.value,title.value,description.value)" class="btn btn-primary">Submit</button>
         </div>
     </div>
 </div>

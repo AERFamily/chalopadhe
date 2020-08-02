@@ -6,8 +6,8 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let chapter of chapterData" (click)="openChapter(chapter)">
-            <td>#1</td>
+        <tr *ngFor="let chapter of chapterData;let i = index" (click)="openChapter(chapter)">
+            <td>#{{i+1}}</td>
             <td><i class="fa fa-circle font-small-3 text-success mr-50"></i>{{chapter}}</td>
         </tr>
     </tbody>

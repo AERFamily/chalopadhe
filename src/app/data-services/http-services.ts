@@ -106,6 +106,27 @@ export class HttpServiceService {
             catchError(this.handleError)
         );
     }
+    GetContent(country: string, language: string, board: string, standard: string,subject:string,chapter:string) {
+        return this._httpServices.get(url + "content/search/content?country=" + country + "&language=" + language + "&board=" + board + "&standard=" + standard +"&subject="+subject+"&chapter="+chapter).pipe(
+            catchError(this.handleError)
+        )
+    }
+    addContent(country: string, language: string, board: string, standard: string,subject:string,chapter:string,contentUrl:string,title:string,description:string,contentType:string) {
+        var postdata = new HttpParams()
+        postdata = postdata.append("country", country);
+        postdata = postdata.append("language",language);
+        postdata = postdata.append("board", board);
+        postdata = postdata.append("standard", standard);
+        postdata = postdata.append("subject", subject);
+        postdata = postdata.append("chapter", chapter);
+        postdata = postdata.append("url", contentUrl);
+        postdata = postdata.append("title", title);
+        postdata = postdata.append("description", description);
+        console.log(country+" "+language+" "+board+" "+standard+" "+subject+" "+chapter+" "+title+" "+url+" "+description );
+        return this._httpServices.post(url + "content/search/content", postdata).pipe(
+            catchError(this.handleError)
+        )
+    }
     SuscribeEmail(emailid: string) {
         var pstData = new HttpParams();
         pstData = pstData.append("email", emailid);

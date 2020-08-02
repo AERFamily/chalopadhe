@@ -53,6 +53,8 @@ export class ChapterpageComponent implements OnInit {
   }
   openChapter(chapter:string) {
     this.sessionVal.chapter = chapter;
+    this.localSession.storeSession(this.sessionVal);
+    console.log(this.sessionVal.chapter);
     this.router.navigate(['./classroom/content']);
   }
   addChapter(val:string) {
