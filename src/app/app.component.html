@@ -1,7 +1,7 @@
-<section *ngIf="false">
-<div class="container-fluid" style="background-color: #343a40;">
+<section>
+<div class="container-fluid" *ngIf="isLogedin" style="background-color: #343a40;">
   <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#" *ngIf="userInformation">
+    <a class="navbar-brand" href="#">
       <img src=".\assets\images\logo.svg" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
       Chalopadhe
     </a>
@@ -16,9 +16,9 @@
         <li class="nav-item">
           <a class="nav-link" routerLink="/classroom">Classroom <span class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <button type="button" class="btn-1 btn-1-primary" (click)="openloginmodel()">Admin login</button>
-        </li>
+        </li> -->
         <li class="nav-item" *ngIf="userInformation">
           <a class="item-horizontal">
             <span style="color: white; padding-right:10px;">John Doe</span><span><img class="round" [src]="userInformation.picture" alt="avatar" height="40" width="40"></span>

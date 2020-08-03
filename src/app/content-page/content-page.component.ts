@@ -4,6 +4,7 @@ import { localSessionStorage } from '../data-services/localSession';
 import { Router } from '@angular/router';
 import { HttpServiceService } from '../data-services/http-services';
 import { status } from '../home/home.component';
+import {DomSanitizer,SafeResourceUrl,} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-content-page',
@@ -11,13 +12,13 @@ import { status } from '../home/home.component';
   styleUrls: ['./content-page.component.css'],
 })
 export class ContentPageComponent implements OnInit {
-  constructor(private localSession:localSessionStorage,private router: Router,private _httpservice: HttpServiceService) {}
+  constructor(private localSession:localSessionStorage,private router: Router,private _httpservice: HttpServiceService,public sanitizer: DomSanitizer) {}
   public openModal: boolean = false;
   modelTitle: string = '';
   contentType: string ='';
   sessionVal:SessionClass;
   contentData:ContentClass[];
-  videoUrl:string;
+  videoUrl:SafeResourceUrl;
   public modalWidth: number = window.innerWidth / 2;
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -37,10 +38,14 @@ export class ContentPageComponent implements OnInit {
       this._httpservice.GetContent(this.sessionVal.country, this.sessionVal.language, this.sessionVal.board, this.sessionVal.standard,this.sessionVal.subject,this.sessionVal.chapter).subscribe((data: any) => {
        this.contentData = data;
        this.contentData.forEach(element => {
-         this.getId(element.url);
+         element.url= this.getId(element.url);
        });
-       if(this.contentData && this.contentData.length>=1)
-       this.videoUrl = this.contentData[0].url;
+       if(this.contentData && this.contentData.length>0)
+       {
+        this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.contentData[0].url);
+        console.log(this.videoUrl);
+       }
+       
       },
         error => {
           console.log("Error in recieving data");
@@ -74,13 +79,14 @@ export class ContentPageComponent implements OnInit {
   getId(url) {
     const regExp = /^.(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]).*/;
     const match = url.match(regExp);
-
+    const watchurl = "watch?v=";
+    const embedUrl ="embed/";
     return (match && match[2].length === 11)
       ? match[2]
-      : null;
+      : url.replace(watchurl,embedUrl);
 }
 changeVideo(url:string)
 {
-  this.videoUrl = url;
+  this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
 }
 }

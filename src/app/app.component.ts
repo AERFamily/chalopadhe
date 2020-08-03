@@ -16,6 +16,7 @@ export class AppComponent {
   isLoginModalOpen: boolean = false;
   userInformation: UserDataClass;
   loginStatus:loginStatus=null;
+  isLogedin:boolean = false
   constructor(private authService: SocialAuthService, private _httpservice: HttpServiceService, private router: Router) {}
   openloginmodel() {
    // window.location.href ="https://admin.chalopadhe.com/admin/";
@@ -34,6 +35,7 @@ export class AppComponent {
         // alert(this.loginStatus.status);
         if (this.loginStatus.status == true) {
           this.isLoginModalOpen = false;
+          this.isLogedin = true;
           this.router.navigate(['./home']);
         }
         else {
