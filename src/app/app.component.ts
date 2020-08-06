@@ -3,6 +3,7 @@ import { SocialAuthService, GoogleLoginProvider, FacebookLoginProvider } from 'a
 import { UserDataClass } from './Classes/model';
 import { HttpServiceService } from './data-services/http-services';
 import { Router } from '@angular/router';
+import { localSessionStorage } from './data-services/localSession';
   export class loginStatus {
   status:boolean;
 }
@@ -17,7 +18,16 @@ export class AppComponent {
   userInformation: UserDataClass;
   loginStatus:loginStatus=null;
   isLogedin:boolean = false
-  constructor(private authService: SocialAuthService, private _httpservice: HttpServiceService, private router: Router) {}
+  constructor(private authService: SocialAuthService, private _httpservice: HttpServiceService, private router: Router,private localSession:localSessionStorage) {}
+  ngOnInit(): void {
+    //let loginSessionValue = his.localSession.retrieveLoginSession();
+    if(this.localSession.retrieveLoginSession())
+    {
+      console.log(this.localSession.retrieveLoginSession());
+      this.isLogedin = true;
+    }
+
+  }
   openloginmodel() {
    // window.location.href ="https://admin.chalopadhe.com/admin/";
     this.isLoginModalOpen = true;
@@ -36,6 +46,7 @@ export class AppComponent {
         if (this.loginStatus.status == true) {
           this.isLoginModalOpen = false;
           this.isLogedin = true;
+          this.localSession.storeLoginSession();
           this.router.navigate(['./home']);
         }
         else {

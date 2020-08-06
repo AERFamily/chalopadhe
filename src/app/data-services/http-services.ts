@@ -99,19 +99,21 @@ export class HttpServiceService {
             catchError(this.handleError)
         )
     }
-    AddChapter(chapter: string) {
+    AddChapter(chapter: string,chapterNo:string) {
+
         var postdata = new HttpParams()
         postdata = postdata.append("chapter", chapter);
+        postdata = postdata.append("number", chapterNo);
         return this._httpServices.post(url + "content/search/chapter", postdata).pipe(
             catchError(this.handleError)
         );
     }
-    GetContent(country: string, language: string, board: string, standard: string,subject:string,chapter:string) {
-        return this._httpServices.get(url + "content/search/content?country=" + country + "&language=" + language + "&board=" + board + "&standard=" + standard +"&subject="+subject+"&chapter="+chapter).pipe(
+    GetContent(country: string, language: string, board: string, standard: string,subject:string,chapter:string,chapterNo:string) {
+        return this._httpServices.get(url + "content/search/content?country=" + country + "&language=" + language + "&board=" + board + "&standard=" + standard +"&subject="+subject+"&chapter="+chapter+"&number="+chapterNo).pipe(
             catchError(this.handleError)
         )
     }
-    addContent(country: string, language: string, board: string, standard: string,subject:string,chapter:string,contentUrl:string,title:string,description:string,contentType:string) {
+    addContent(country: string, language: string, board: string, standard: string,subject:string,chapter:string,chapterNo:string,contentUrl:string,title:string,description:string,contenttType:string) {
         var postdata = new HttpParams()
         postdata = postdata.append("country", country);
         postdata = postdata.append("language",language);
@@ -122,6 +124,8 @@ export class HttpServiceService {
         postdata = postdata.append("url", contentUrl);
         postdata = postdata.append("title", title);
         postdata = postdata.append("description", description);
+        postdata = postdata.append("number", chapterNo);
+        postdata = postdata.append("content_type", contenttType);
         console.log(country+" "+language+" "+board+" "+standard+" "+subject+" "+chapter+" "+title+" "+url+" "+description );
         return this._httpServices.post(url + "content/search/content", postdata).pipe(
             catchError(this.handleError)

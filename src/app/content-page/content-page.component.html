@@ -67,7 +67,7 @@
             <form>
                 <div class="form-group">
                     <label for="exampleFormControlFile1">Choose file</label>
-                    <input type="file" class="form-control-file" #choosevalue>
+                    <input type="file" class="form-control-file" #filesInput (change)="handleFileInput($event.target.files)">
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Paste Link</label>

@@ -6,7 +6,8 @@ import { Injectable } from '@angular/core';
 export class localSessionStorage
 {
     private sessionkey = 'aer';
-    private tokenKey = 'chalopadhe'
+    private tokenKey = 'chalopadhe';
+    private Loginsessionkey = 'aerLogin';
     public storeSession(content:object)
     {
         sessionStorage.setItem(this.sessionkey,"true");
@@ -23,6 +24,22 @@ export class localSessionStorage
         else
         {
             return null;
+        }
+    }
+    public storeLoginSession()
+    {
+        sessionStorage.setItem(this.Loginsessionkey,"true");
+    }
+    public retrieveLoginSession()
+    {
+        let sessionVal:string = sessionStorage.getItem(this.Loginsessionkey);
+        if(sessionVal &&  sessionVal === "true")
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
     public clearSession()

@@ -7,8 +7,8 @@
     </thead>
     <tbody>
         <tr *ngFor="let chapter of chapterData;let i = index" (click)="openChapter(chapter)">
-            <td>#{{i+1}}</td>
-            <td><i class="fa fa-circle font-small-3 text-success mr-50"></i>{{chapter}}</td>
+            <td>#{{chapter.chapterNo}}</td>
+            <td><i class="fa fa-circle font-small-3 text-success mr-50"></i>{{chapter.chapterName}}</td>
         </tr>
     </tbody>
 </table>
@@ -28,6 +28,10 @@
         <div>
         <form>
             <div class="form-group">
+                <label for="exampleFormControlInput1">Chapter No.</label>
+                <input type="text" class="form-control" #chapterNumber placeholder="only number">
+            </div>
+            <div class="form-group">
                 <label for="exampleFormControlInput1">Title</label>
                 <input type="text" class="form-control" #name placeholder="title">
             </div>
@@ -36,6 +40,6 @@
                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
             </div> -->
         </form>
-        <button (click)="addChapter(name.value)" class="btn btn-primary">Submit</button>
+        <button (click)="addChapter(name.value,chapterNumber.value)" class="btn btn-primary">Submit</button>
     </div>
 </div>

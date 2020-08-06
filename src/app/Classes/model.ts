@@ -23,6 +23,7 @@ export class SessionClass
   standard:string;
   subject:string;
   chapter:string;
+  chapterNo:string;
 }
 export class ContentClass
 {
@@ -42,4 +43,9 @@ export class ContentClass
   board:string;
   standard:string;
   chapter:string;
+}
+export class chpaterClass
+{
+  chapterNo:string;
+  chapterName:string
 }

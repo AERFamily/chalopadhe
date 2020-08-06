@@ -20,6 +20,7 @@ export class ContentPageComponent implements OnInit {
   contentData:ContentClass[];
   videoUrl:SafeResourceUrl;
   public modalWidth: number = window.innerWidth / 2;
+  fileToupload:File=null;
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     if (this.openModal) {
@@ -35,7 +36,7 @@ export class ContentPageComponent implements OnInit {
     }
     else
     {
-      this._httpservice.GetContent(this.sessionVal.country, this.sessionVal.language, this.sessionVal.board, this.sessionVal.standard,this.sessionVal.subject,this.sessionVal.chapter).subscribe((data: any) => {
+      this._httpservice.GetContent(this.sessionVal.country, this.sessionVal.language, this.sessionVal.board, this.sessionVal.standard,this.sessionVal.subject,this.sessionVal.chapter,this.sessionVal.chapterNo).subscribe((data: any) => {
        this.contentData = data;
        this.contentData.forEach(element => {
          element.url= this.getId(element.url);
@@ -60,7 +61,7 @@ export class ContentPageComponent implements OnInit {
   addBook() {
     this.modelTitle = 'Add Book';
     this.openModal = true;
-    this.contentType = ""
+    this.contentType = "E-Book"
   }
   closeDetails() {
     this.openModal = false;
@@ -68,7 +69,7 @@ export class ContentPageComponent implements OnInit {
   addContent(url:string,title:string,description:string)
   {
     this.closeDetails();
-    this._httpservice.addContent(this.sessionVal.country,this.sessionVal.language,this.sessionVal.board,this.sessionVal.standard,this.sessionVal.subject, this.sessionVal.chapter,url,title,description,this.contentType).subscribe((data: any) => {
+    this._httpservice.addContent(this.sessionVal.country,this.sessionVal.language,this.sessionVal.board,this.sessionVal.standard,this.sessionVal.subject, this.sessionVal.chapter,this.sessionVal.chapterNo,url,title,description,this.contentType).subscribe((data: any) => {
 
       alert((data as status).message);
     },
@@ -88,5 +89,9 @@ export class ContentPageComponent implements OnInit {
 changeVideo(url:string)
 {
   this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+}
+handleFileInput(files:FileList)
+{
+this.fileToupload = files.item(0);
 }
 }
