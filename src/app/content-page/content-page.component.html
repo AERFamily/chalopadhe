@@ -12,14 +12,14 @@
 <div class="col-xl-6">
 <div class="card">
     <div class="card-content" *ngIf="contentData?.length > 0">
-        <div class="card-body">
+        <!-- <div class="card-body">
             <h4 class="card-title">{{contentData[0].title}}</h4>
             <p class="card-text">{{contentData[0].description}}</p>
-        </div>
-        <ul class="list-group list-group-flush" *ngFor="let content of contentData;let i = index" (click)="changeVideo(content.url)">
+        </div> -->
+        <ul class="list-group list-group-flush" *ngFor="let video of videoContent;let i = index" (click)="changeVideo(video.url)">
             <li class="list-group-item">
                 <span class="badge badge-pill bg-primary float-right">{{i+1}}</span>
-               {{content.title}}
+               {{video.title}}
             </li>
         </ul>
     </div>
@@ -36,20 +36,16 @@
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of
                 the card's content.</p>
         </div>
-        <ul class="list-group list-group-flush">
+        <ul class="list-group list-group-flush" *ngFor="let book of ebookContent;let i = index"
+            (click)="ChangeBook(book.file)">
             <li class="list-group-item">
-                <span class="badge badge-pill bg-primary float-right">4</span>
-                Book 1
+                <span class="badge badge-pill bg-primary float-right">{{i+1}}</span>
+                {{book.title}} | 
+                <span>{{book.description}}</span>
             </li>
             <li class="list-group-item">
-                <span class="badge badge-pill bg-info float-right">2</span>
-                Book 2
+               
             </li>
-            <li class="list-group-item">
-                <span class="badge badge-pill bg-warning float-right">1</span>
-                Book 3
-            </li>
-           
         </ul>
         <div class="card-body">
             <button type="button" class="btn btn-light" (click)="addBook()">+ Add Book</button>
@@ -62,12 +58,14 @@
             <h3 style="position:relative;float:left;">{{modelTitle}}</h3>
             <span class="close" (click)="closeDetails()">X</span>
         </div>
+        <!-- <button style="right:10px;position:relative;width: 100px;">click me</button> -->
         <hr>
         <div>
             <form>
                 <div class="form-group">
                     <label for="exampleFormControlFile1">Choose file</label>
                     <input type="file" class="form-control-file" #filesInput (change)="handleFileInput($event.target.files)">
+                    
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Paste Link</label>

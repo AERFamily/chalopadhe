@@ -47,5 +47,6 @@ export class ContentClass
 export class chpaterClass
 {
   chapterNo:string;
-  chapterName:string
+  chapterName:string;
+  chapterDesc:string;
 }

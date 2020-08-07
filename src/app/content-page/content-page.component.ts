@@ -18,6 +18,8 @@ export class ContentPageComponent implements OnInit {
   contentType: string ='';
   sessionVal:SessionClass;
   contentData:ContentClass[];
+  videoContent: ContentClass[]=[];
+  ebookContent:ContentClass[]=[];
   videoUrl:SafeResourceUrl;
   public modalWidth: number = window.innerWidth / 2;
   fileToupload:File=null;
@@ -39,8 +41,19 @@ export class ContentPageComponent implements OnInit {
       this._httpservice.GetContent(this.sessionVal.country, this.sessionVal.language, this.sessionVal.board, this.sessionVal.standard,this.sessionVal.subject,this.sessionVal.chapter,this.sessionVal.chapterNo).subscribe((data: any) => {
        this.contentData = data;
        this.contentData.forEach(element => {
-         element.url= this.getId(element.url);
+         if (element.content_type =="Video")
+         {
+           console.log(element.content_type);
+           element.url = this.getId(element.url);
+           this.videoContent.push(element);
+         }
+         else
+         {
+           this.ebookContent.push(element);
+         }
+         
        });
+       console.log(data);
        if(this.contentData && this.contentData.length>0)
        {
         this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.contentData[0].url);
@@ -69,8 +82,8 @@ export class ContentPageComponent implements OnInit {
   addContent(url:string,title:string,description:string)
   {
     this.closeDetails();
-    this._httpservice.addContent(this.sessionVal.country,this.sessionVal.language,this.sessionVal.board,this.sessionVal.standard,this.sessionVal.subject, this.sessionVal.chapter,this.sessionVal.chapterNo,url,title,description,this.contentType).subscribe((data: any) => {
-
+    this._httpservice.addContent(this.sessionVal.country,this.sessionVal.language,this.sessionVal.board,this.sessionVal.standard,this.sessionVal.subject, this.sessionVal.chapter,this.sessionVal.chapterNo,url,title,description,this.contentType,this.fileToupload).subscribe((data: any) => {
+this.fileToupload = null;
       alert((data as status).message);
     },
       error => {
@@ -93,5 +106,12 @@ changeVideo(url:string)
 handleFileInput(files:FileList)
 {
 this.fileToupload = files.item(0);
+}
+ChangeBook(url: string)
+{
+  console.log(url);
+  let fileUrl:string = this._httpservice.getUrl()+url;
+  
+window.open(fileUrl,"_blank");
 }
 }

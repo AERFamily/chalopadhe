@@ -13,7 +13,10 @@ export class HttpServiceService {
     // public getJSON(str: string) {
     //     return this.http.get("./assets/" + str + ".json");
     // }
-
+    getUrl()
+    {
+        return "https://admin.chalopadhe.com/";
+    }
     login(username:string,password:string)
     {
         var postdata = new HttpParams()
@@ -99,11 +102,12 @@ export class HttpServiceService {
             catchError(this.handleError)
         )
     }
-    AddChapter(chapter: string,chapterNo:string) {
+    AddChapter(chapter: string,chapterNo:string,desc:string) {
 
         var postdata = new HttpParams()
         postdata = postdata.append("chapter", chapter);
         postdata = postdata.append("number", chapterNo);
+        postdata = postdata.append("description", desc);
         return this._httpServices.post(url + "content/search/chapter", postdata).pipe(
             catchError(this.handleError)
         );
@@ -113,23 +117,46 @@ export class HttpServiceService {
             catchError(this.handleError)
         )
     }
-    addContent(country: string, language: string, board: string, standard: string,subject:string,chapter:string,chapterNo:string,contentUrl:string,title:string,description:string,contenttType:string) {
-        var postdata = new HttpParams()
-        postdata = postdata.append("country", country);
-        postdata = postdata.append("language",language);
-        postdata = postdata.append("board", board);
-        postdata = postdata.append("standard", standard);
-        postdata = postdata.append("subject", subject);
-        postdata = postdata.append("chapter", chapter);
-        postdata = postdata.append("url", contentUrl);
-        postdata = postdata.append("title", title);
-        postdata = postdata.append("description", description);
-        postdata = postdata.append("number", chapterNo);
-        postdata = postdata.append("content_type", contenttType);
-        console.log(country+" "+language+" "+board+" "+standard+" "+subject+" "+chapter+" "+title+" "+url+" "+description );
-        return this._httpServices.post(url + "content/search/content", postdata).pipe(
-            catchError(this.handleError)
-        )
+    addContent(country: string, language: string, board: string, standard: string,subject:string,chapter:string,chapterNo:string,contentUrl:string,title:string,description:string,contenttType:string,fileToUpload:File) {
+        // var postdata = new HttpParams()
+        // postdata = postdata.append("country", country);
+        // postdata = postdata.append("language",language);
+        // postdata = postdata.append("board", board);
+        // postdata = postdata.append("standard", standard);
+        // postdata = postdata.append("subject", subject);
+        // postdata = postdata.append("chapter", chapter);
+        // postdata = postdata.append("url", contentUrl);
+        // postdata = postdata.append("title", title);
+        // postdata = postdata.append("description", description);
+        // postdata = postdata.append("number", chapterNo);
+        // postdata = postdata.append("content_type", contenttType);
+        var formData = new FormData();
+        formData.append("country", country);
+        formData.append("language",language);
+        formData.append("board", board);
+        formData.append("standard", standard);
+        formData.append("subject", subject);
+        formData.append("chapter", chapter);
+        formData.append("url", contentUrl);
+        formData.append("title", title);
+        formData.append("description", description);
+        formData.append("number", chapterNo);
+        formData.append("content_type", contenttType);
+        
+        //console.log(country+" "+language+" "+board+" "+standard+" "+subject+" "+chapter+" "+title+" "+url+" "+description+"gfhgs   "+fileToUpload.name );
+
+        if (fileToUpload == null) {
+            return this._httpServices.post(url + "content/search/content", formData).pipe(
+                catchError(this.handleError)
+            )
+        }
+        else {
+            formData.append("file", fileToUpload, fileToUpload.name);
+            return this._httpServices.post(url + "content/search/file", formData).pipe(
+                catchError(this.handleError)
+            )
+        }
+       
     }
     SuscribeEmail(emailid: string) {
         var pstData = new HttpParams();

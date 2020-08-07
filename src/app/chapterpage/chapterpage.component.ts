@@ -45,13 +45,14 @@ export class ChapterpageComponent implements OnInit {
     {
       this._httpservice.GetChapter(this.sessionVal.country, this.sessionVal.language, this.sessionVal.board, this.sessionVal.standard,this.sessionVal.subject).subscribe((data: any) => {
         this.chapterData = data;
+        console.log(JSON.stringify(data));
         this.chapterData = [];
         data.forEach(element => {
-          let valArray = element.toString().split(',',2)
+         // let valArray = element.toString().split(',',2)
           let chapter = new  chpaterClass();
-          console.log(valArray,chapter);
-          chapter.chapterName = valArray[0];
-          chapter.chapterNo = valArray[1];
+          chapter.chapterName = element[0];
+          chapter.chapterNo = element[1];
+          chapter.chapterDesc=element[2];
           this.chapterData.push(chapter);
         });
         console.log(JSON.stringify(this.chapterData));
@@ -68,14 +69,15 @@ export class ChapterpageComponent implements OnInit {
     console.log(this.sessionVal.chapter);
     this.router.navigate(['./classroom/content']);
   }
-  addChapter(val:string,chapterNo:string) {
+  addChapter(val:string,chapterNo:string,desc:string) {
     this.closeDetails();
-    this._httpservice.AddChapter(val,chapterNo).subscribe((data: any) => {
+    this._httpservice.AddChapter(val,chapterNo,desc).subscribe((data: any) => {
 
       alert((data as status).message);
       let chapter = new chpaterClass();
       chapter.chapterName = val;
       chapter.chapterNo = chapterNo;
+      chapter.chapterDesc = desc;
       this.chapterData.push(chapter);
     },
       error => {
